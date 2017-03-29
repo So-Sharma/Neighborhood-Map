@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Neighborhood Map</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+
+
+<div id="map" class="col-md-12 col-xs-12"></div>
+<div id="nav" class="col-md-3 col-xs-8">
+    <div id="cont" class=".container-fluid">
+        <div id="demo" class="collapse in">
+            <h2>Get my mocha!</h2>
+            <input id="filter-markers" type="text" data-bind="textInput: searchQuery, valueUpdate: 'afterkeydown'">
+
+            <div class="row">
+                <ul data-bind="foreach: filteredMarkers">
+                    <li>
+                        <b data-bind="text: title, click: openInfo"></b>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <button type="button" class="btn btn-default btn-block btn-xs" aria-label="Toggle" data-toggle="collapse"
+                data-target="#demo" id="nav-toggle">
+            <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+        </button>
+    </div>
+</div>
+
+
+<script src="js/lib/jquery-3.2.0.min.js"></script>
+<script src="js/lib/bootstrap.min.js"></script>
+<script src="js/lib/oauth-signature.min.js"></script>
+<script type='text/javascript' src="js/lib/knockout-3.4.2.js"></script>
+<script src="js/app.js"></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFcijnkQXdWAig-YbRQ7I430jdsercyOo&v=3&callback=initMap"
+        onerror="errorMap()">
+</script>
+
+</body>
+</html>
