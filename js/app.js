@@ -1,10 +1,12 @@
+//Latitude and Longitude details for the featured neighborhood
+const LATITUDE = 47.608013;
+const LONGITUDE = -122.335167;
+
 // Create a model for a Location on the map
 var Location = function Location(map, name, lat, lon) {
   var marker;
 
   this.title = ko.observable(name);
-  this.lat = ko.observable(lat);
-  this.lon = ko.observable(lon);
 
   //Fetch parameters for calling the Yelp API
   var parameters = fetchYelpDetails(name, lat, lon);
@@ -15,26 +17,25 @@ var Location = function Location(map, name, lat, lon) {
     data: parameters,
     cache: true,
     dataType: 'jsonp',
-    success: function(results) {
-      // Build the content string from the results returned by Yelp
-      var name = results.businesses[0].name;
-      var rating = results.businesses[0].rating;
-      var phone = results.businesses[0].display_phone;
-      var address = results.businesses[0].location.display_address;
-      content = '<div><h4>' + name + '</h4>' +
-        '<p>' + address + '</p>' +
-        '<p>Phone: ' + phone + '</p>' +
-        '<p>Yelp Rating: ' + rating + '</p>' +
-        '</div>';
-    },
-    fail: function() {
-      // Show error message if the Yelp API call fails
-      alert("There was an error in loading Yelp data. Please try again.");
-    }
   };
 
   // Send AJAX query via jQuery library.
-  $.ajax(settings);
+  $.ajax(settings)
+  .done(function(results) {
+    // Build the content string from the results returned by Yelp
+    var name = results.businesses[0].name;
+    var rating = results.businesses[0].rating;
+    var phone = results.businesses[0].display_phone;
+    var address = results.businesses[0].location.display_address;
+    content = '<div><h4>' + name + '</h4>' +
+      '<p>' + address + '</p>' +
+      '<p>Phone: ' + phone + '</p>' +
+      '<p>Yelp Rating: ' + rating + '</p>' +
+      '</div>';
+  })
+  .fail(function() {
+    alert("There was an error in loading Yelp data. Please try again.");
+  });
 
 
   marker = new google.maps.Marker({
@@ -96,8 +97,8 @@ function ViewModel() {
   // Constructor creates a new map
   map = new google.maps.Map(document.getElementById('map'), {
     center: {
-      lat: 47.608013,
-      lng: -122.335167
+      lat: LATITUDE,
+      lng: LONGITUDE
     },
     zoom: 15,
     mapTypeControl: false
